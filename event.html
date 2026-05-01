@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BezCimanja Event</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: -apple-system, sans-serif;
+  background: #f4f4f4;
+  color: #111;
+}
+
+.container {
+  max-width: 420px;
+  margin: auto;
+  padding: 16px;
+}
+
+.card {
+  background: white;
+  padding: 16px;
+  border-radius: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+h1 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.badge {
+  display: inline-block;
+  background: black;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  margin-top: 6px;
+}
+
+.small {
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+.list-item {
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.primary {
+  background: black;
+  color: white;
+}
+
+.share-grid {
+  display: flex;
+  gap: 8px;
+}
+
+.share-grid button {
+  flex: 1;
+  background: #eaeaea;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- HEADER -->
+<div class="card">
+  <h1 id="title">Loading...</h1>
+  <span class="badge">grupni poklon</span>
+  <p class="small">💶 <span id="amount"></span> € po osobi</p>
+</div>
+
+<!-- LISTA -->
+<div class="card">
+  <b>Ko je uplatio</b>
+  <div id="list"></div>
+</div>
+
+<!-- ADD USER -->
+<div class="card">
+  <input id="name" placeholder="Tvoje ime">
+  <button class="primary" onclick="addMe()">Dodaj se</button>
+</div>
+
+<!-- SHARE -->
+<div class="card">
+  <b>Podeli</b>
+  <div class="share-grid">
+    <button onclick="shareWA()">WhatsApp</button>
+    <button onclick="shareViber()">Viber</button>
+    <button onclick="copyLink()">Copy</button>
+  </div>
+</div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, doc, getDoc, updateDoc, arrayUnion, onSnapshot } 
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+// 🔴 Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyByXilWa2tBeoABU1BwyDvHiQxT5FCdEyw",
+  authDomain: "bezcimanja2026.firebaseapp.com",
+  projectId: "bezcimanja2026",
+  storageBucket: "bezcimanja2026.firebasestorage.app",
+  messagingSenderId: "947894635912",
+  appId: "1:947894635912:web:268fa57efdea9db6833e3d",
+  measurementId: "G-CFLBNDE5D6"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// event id iz URL-a
+const params = new URLSearchParams(window.location.search);
+const eventId = params.get("id");
+
+const ref = doc(db, "events", eventId);
+
+// lokalni cache za duplikate
+let currentList = [];
+
+onSnapshot(ref, (snap) => {
+  const data = snap.data();
+  if (!data) return;
+
+  document.getElementById("title").innerText = data.title;
+  document.getElementById("amount").innerText = data.amount;
+
+  currentList = data.list || [];
+
+  renderList();
+});
+
+function renderList() {
+  const list = document.getElementById("list");
+  list.innerHTML = "";
+
+  currentList.forEach(name => {
+    const div = document.createElement("div");
+    div.className = "list-item";
+    div.textContent = "👤 " + name;
+    list.appendChild(div);
+  });
+}
+
+window.addMe = async function() {
+  const name = document.getElementById("name").value.trim();
+  if (!name) return;
+
+  // 🚫 DUPLIKAT CHECK
+  if (currentList.includes(name)) {
+    alert("Već si dodat 🙂");
+    return;
+  }
+
+  await updateDoc(ref, {
+    list: arrayUnion(name)
+  });
+
+  document.getElementById("name").value = "";
+};
+
+function getLink() {
+  return window.location.href;
+}
+
+// SHARE
+window.shareWA = function() {
+  window.open("https://wa.me/?text=" + encodeURIComponent(getLink()));
+};
+
+window.shareViber = function() {
+  window.open("viber://forward?text=" + encodeURIComponent(getLink()));
+};
+
+window.copyLink = function() {
+  navigator.clipboard.writeText(getLink());
+  alert("Kopirano!");
+};
+
+</script>
+
+</body>
+</html>
