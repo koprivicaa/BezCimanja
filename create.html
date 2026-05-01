@@ -127,7 +127,8 @@ window.createEvent = async function() {
   });
 
   const link = window.location.origin + "/event.html?id=" + id;
-
+  navigator.clipboard.writeText(link);
+  
   document.getElementById("result").innerHTML = `
     <b>✅ Event kreiran</b><br><br>
     👉 Pošalji ovaj link:<br><br>
