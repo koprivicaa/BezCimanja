@@ -145,7 +145,7 @@ const db = getFirestore(app);
 
 // event id iz URL-a
 const params = new URLSearchParams(window.location.search);
-const eventId = params.get("id");
+const eventId = params.get("id") || "test";
 
 const ref = doc(db, "events", eventId);
 
