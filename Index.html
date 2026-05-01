@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BezCimanja</title>
+
+<style>
+body {
+  font-family: -apple-system, sans-serif;
+  margin: 0;
+  background: #f5f5f5;
+  color: #111;
+}
+
+.container {
+  max-width: 420px;
+  margin: auto;
+  padding: 20px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  margin-top: 16px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+}
+
+h1 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.big {
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+.bad {
+  color: #d00;
+  font-weight: 600;
+}
+
+.good {
+  color: #0a7;
+  font-weight: 600;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  margin-top: 12px;
+  cursor: pointer;
+}
+
+.primary {
+  background: black;
+  color: white;
+}
+
+.secondary {
+  background: #eee;
+}
+
+.demo {
+  font-size: 14px;
+  background: #fafafa;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+.highlight {
+  font-weight: bold;
+}
+
+.small {
+  font-size: 13px;
+  opacity: 0.7;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- HERO -->
+<div class="card">
+  <h1>BezCimanja</h1>
+
+  <p class="big">
+    👎 Svi znamo ovaj problem:
+  </p>
+
+  <p class="bad">
+    “Ko je dao pare?”<br>
+    “Aj podseti ih u grupi”<br>
+    “Ko još nije uplatio?”
+  </p>
+
+  <p class="big good">
+    ✔️ Rešeno za 10 sekundi.
+  </p>
+</div>
+
+<!-- WHAT IT DOES -->
+<div class="card">
+  <p class="big">
+    Napravi grupni poklon bez poruka, Excel-a i smaranja.
+  </p>
+
+  <div class="demo">
+    🎁 Poklon za učiteljicu<br>
+    💶 10€ po osobi<br>
+    👥 svi kliknu i upišu se<br>
+    ⚡ gotovo
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="card">
+  <p class="highlight">Kako radi:</p>
+
+  <p>1. Napraviš link</p>
+  <p>2. Pošalješ u Viber grupu</p>
+  <p>3. Ljudi kliknu i upišu se</p>
+  <p>4. Nema više “ko nije dao pare”</p>
+</div>
+
+<!-- CTA -->
+<div class="card">
+  <p class="big"><b>Probaj sada</b></p>
+
+  <button class="primary" onclick="go()">
+    Napravi test event
+  </button>
+
+  <p class="small">
+    bez registracije • 10 sekundi • radi odmah
+  </p>
+</div>
+
+</div>
+
+<script>
+function go() {
+  window.location.href = "create.html";
+}
+</script>
+
+</body>
+</html>
